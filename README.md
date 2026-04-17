@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Extrator de Notas Fiscais com IA
 Esta é uma aplicação Laravel desenvolvida para o desafio técnico da Skala. O objetivo é facilitar a gestão de gastos através do upload de Notas Fiscais (PDF ou Imagem), onde uma Inteligência Artificial (Gemini 2.5 Flash) extrai automaticamente os dados relevantes.
 
@@ -71,3 +72,6 @@ Categoria Sugerida
 
 ## ✒️ Autor
 # Michael Mallmann - https://github.com/michael-mallmann/
+=======
+# leitor-notas-fiscais
+>>>>>>> ac4c0e0293be778a54c36047b420414148176611
