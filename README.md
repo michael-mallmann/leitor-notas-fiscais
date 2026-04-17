@@ -1,58 +1,73 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Extrator de Notas Fiscais com IA
+Esta é uma aplicação Laravel desenvolvida para o desafio técnico da Skala. O objetivo é facilitar a gestão de gastos através do upload de Notas Fiscais (PDF ou Imagem), onde uma Inteligência Artificial (Gemini 2.5 Flash) extrai automaticamente os dados relevantes.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 🛠️ Tecnologias Utilizadas
+Framework: Laravel 11
 
-## About Laravel
+Estilização: Tailwind CSS
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+IA: Google Gemini API (Modelo 2.5 Flash)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Banco de Dados: SQLite (pela praticidade no teste)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 📋 Pré-requisitos
+Antes de começar, você vai precisar ter instalado:
 
-## Learning Laravel
+PHP 8.3 ou superior
+Composer
+Uma chave de API do Google AI Studio
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🔧 Instalação e Configuração
+Siga os passos abaixo para rodar o projeto localmente:
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**Clone o repositório:**
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+Bash
+``` git clone https://github.com/seu-usuario/seu-repositorio.git ```
+``` cd seu-repositorio ``` 
 
-## Agentic Development
+**Instale as dependências:**
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+Bash
+``` composer install ```
+``` npm install && npm run build ```
 
-```bash
-composer require laravel/boost --dev
+**Configure as variáveis de ambiente:**
+Copie o arquivo de exemplo e configure sua chave da API:
 
-php artisan boost:install
-```
+Bash
+``` cp .env.example .env ```
+**Abra o arquivo .env e preencha a sua chave:**
+GEMINI_API_KEY=sua_chave_aqui
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+**Prepare o Banco de Dados e a Chave do App:**
 
-## Contributing
+Bash
+`php artisan key:generate`
+`touch database/database.sqlite`
+`php artisan migrate`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**Crie o link simbólico para o Storage:**
+(Essencial para que as imagens das notas apareçam no histórico)
 
-## Code of Conduct
+```Bash
+php artisan storage:link```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+**Inicie o servidor:**
+1
+Bash
+`php artisan serve`
+Acesse: http://localhost:8000
 
-## Security Vulnerabilities
+## 🧠 Como funciona a extração?
+O sistema utiliza um prompt estruturado enviado ao modelo Gemini 2.5 Flash. A IA analisa o arquivo enviado e retorna um JSON com:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Nome da Empresa
+CNPJ
+Lista de Produtos/Itens
+Data da Emissão
+Valor Tota
+Categoria Sugerida
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## ✒️ Autor
+# Michael Mallmann - https://github.com/michael-mallmann/
