@@ -81,6 +81,10 @@ Data da Emissão
 Valor Total
 Categoria Sugerida
 
+## 🚀 Próximos Passos (Roadmap)
+- [ ] **Sistema de Autenticação:** Implementar Laravel Breeze para que cada usuário tenha seu próprio histórico privado de notas.
+- [ ] **Multi-empresa:** Suporte para gestão de diferentes CNPJs em uma única conta.
+
 ## ✒️ Autor
 # Michael Mallmann - https://github.com/michael-mallmann/
 

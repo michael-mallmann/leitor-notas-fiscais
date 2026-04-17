@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Invoice extends Model
 {
     use HasFactory;
-
+    
     protected $fillable = [
         'file_path',
         'company_name',
@@ -16,9 +16,12 @@ class Invoice extends Model
         'date',
         'total_value',
         'items',
-        'category'
+        'category',
+        'arquivo_path',
+        'valor_total', 
+        'data_emissao'
     ];
-
+    
     protected $casts = [
         'items' => 'array',
     ];

@@ -2,7 +2,16 @@
 
 namespace App\Http\Controllers;
 
-abstract class Controller
+use App\Models\Invoice; 
+use Illuminate\Http\Request;
+
+class InvoiceController extends Controller
 {
-    //
+    public function store(Request $request)
+    {
+        
+        Invoice::create($request->all());
+
+        return redirect()->back()->with('success', 'Nota processada com sucesso!');
+    }
 }
