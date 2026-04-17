@@ -1,6 +1,8 @@
 # Extrator de Notas Fiscais com IA
 Esta é uma aplicação Laravel desenvolvida para o desafio técnico da Skala. O objetivo é facilitar a gestão de gastos através do upload de Notas Fiscais (PDF ou Imagem), onde uma Inteligência Artificial (Gemini 2.5 Flash) extrai automaticamente os dados relevantes.
 
+![Dashboard do IronLedger](./screenshots/Screenshot_1.jpg)
+
 ## 🛠️ Tecnologias Utilizadas
 Framework: Laravel 11
 
@@ -15,7 +17,7 @@ Antes de começar, você vai precisar ter instalado:
 
 PHP 8.3 ou superior
 Composer
-Uma chave de API do Google AI Studio
+Uma chave de API do [Google AI Studio](https://aistudio.google.com/)
 
 ## 🔧 Instalação e Configuração
 Siga os passos abaixo para rodar o projeto localmente:
@@ -23,17 +25,17 @@ Siga os passos abaixo para rodar o projeto localmente:
 **Clone o repositório:**
 
 ```Bash
-git clone https://github.com/seu-usuario/seu-repositorio.git 
-cd seu-repositorio
+git clone https://github.com/michael-mallmann/leitor-notas-fiscais.git
+cd leitor-notas-fiscais
 ```
 
 **Instale as dependências:**
 
-```
+```bash
 composer install
 ```
 
-```
+```bash
 npm install && npm run build
 ```
 
@@ -76,7 +78,7 @@ Nome da Empresa
 CNPJ
 Lista de Produtos/Itens
 Data da Emissão
-Valor Tota
+Valor Total
 Categoria Sugerida
 
 ## ✒️ Autor
