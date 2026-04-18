@@ -24,55 +24,55 @@ class InvoiceController extends Controller
         $mimeType = $file->getMimeType();
         $base64Data = base64_encode(file_get_contents($file->path()));
 
-        $prompt = "Analise este documento fiscal. Extraia os seguintes dados e retorne EXCLUSIVAMENTE um JSON válido com as seguintes chaves (em inglês): 
-        'company_name' (nome da empresa emissora), 
-        'cnpj' (apenas números ou formatado), 
-        'date' (formato YYYY-MM-DD), 
-        'total_value' (apenas o número com ponto para decimais), 
-        'items' (um array de strings com os nomes dos produtos), 
-        'category' (sugira uma categoria como: alimentação, transporte, eletrônicos, serviços, etc).";
+        $prompt = "Analise este documento fiscal. Extraia os seguintes dados e retorne EXCLUSIVAMENTE um JSON válido com as seguintes chaves (em inglês):
+        'company_name' (nome da empresa emissora),
+        'cnpj' (apenas números ou formatado),
+        'date' (formato YYYY-MM-DD),
+        'total_value' (apenas o número com ponto para decimais),
+        'items' (um array de strings com os nomes dos produtos),
+        'category' (sugira uma categoria como: alimentação, transporte, eletrônicos, serviços, etc).
+        Retorne SOMENTE o JSON, sem texto adicional, sem markdown, sem blocos de código.";
 
-        $apiKey = env('GEMINI_API_KEY');
-       
-        $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={$apiKey}";
+        $apiKey = env('ANTHROPIC_API_KEY');
+
+        $isImage = in_array($mimeType, ['image/jpeg', 'image/png', 'image/jpg']);
+
+        $contentBlock = $isImage
+            ? ['type' => 'image', 'source' => ['type' => 'base64', 'media_type' => $mimeType, 'data' => $base64Data]]
+            : ['type' => 'document', 'source' => ['type' => 'base64', 'media_type' => 'application/pdf', 'data' => $base64Data]];
+
         try {
             $response = Http::withoutVerifying()
                 ->retry(3, 3000)
                 ->withHeaders([
                     'Content-Type' => 'application/json',
-                ])->post($url, [
-                    'contents' => [
+                    'x-api-key' => $apiKey,
+                    'anthropic-version' => '2023-06-01',
+                ])->post('https://api.anthropic.com/v1/messages', [
+                    'model' => 'claude-opus-4-7',
+                    'max_tokens' => 1024,
+                    'messages' => [
                         [
-                            'parts' => [
-                                ['text' => $prompt],
-                                [
-                                    'inlineData' => [ 
-                                        'mimeType' => $mimeType, 
-                                        'data' => $base64Data
-                                    ]
-                                ]
-                            ]
-                        ]
+                            'role' => 'user',
+                            'content' => [
+                                $contentBlock,
+                                ['type' => 'text', 'text' => $prompt],
+                            ],
+                        ],
                     ],
-                    'generationConfig' => [
-                        'responseMimeType' => 'application/json'
-                    ]
                 ]);
 
-        
             if ($response->failed()) {
                 $errorDetail = $response->json('error.message') ?? 'O servidor da IA está sobrecarregado.';
                 return back()->with('error', 'Falha na IA: ' . $errorDetail);
             }
 
-            
             $result = $response->json();
-            $jsonText = $result['candidates'][0]['content']['parts'][0]['text'] ?? '{}';
+            $jsonText = $result['content'][0]['text'] ?? '{}';
             $extractedData = json_decode($jsonText, true);
 
         } catch (\Exception $e) {
-            
-            return back()->with('error', 'O Google Gemini não respondeu a tempo. Por favor, tente novamente.');
+            return back()->with('error', 'O Claude não respondeu a tempo. Por favor, tente novamente.');
         }
 
         
